@@ -1,0 +1,575 @@
+{
+  "name": "RAG3",
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "rag2",
+          "mode": "list",
+          "cachedResultName": "rag2"
+        },
+        "options": {
+          "metadataPayloadKey": "=metadata"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.3,
+      "position": [
+        432,
+        64
+      ],
+      "id": "a86e5d9c-f09d-4578-a415-8281ae473da2",
+      "name": "Qdrant Vector Store",
+      "credentials": {
+        "qdrantApi": {
+          "id": "YOUR_QDRANT_CREDENTIAL_ID",
+          "name": "Qdrant Credential"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        400,
+        336
+      ],
+      "id": "cc4ce3b1-051b-4ee5-97ae-2829f66dd9f1",
+      "name": "Embeddings Google Gemini",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "YOUR_GOOGLE_GEMINI_CREDENTIAL_ID",
+          "name": "Google Gemini Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "textSplittingMode": "custom",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "=apple",
+                "value": "={{ $json['file name'] }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        608,
+        256
+      ],
+      "id": "60adb003-16cd-42f8-9e64-395ce788b18c",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "content": "# knowledge base\n",
+        "height": 688,
+        "width": 1424
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -528,
+        -144
+      ],
+      "typeVersion": 1,
+      "id": "b0c8aa16-edb2-458d-976f-5a0be67c6fee",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## RAG chatbot",
+        "height": 768,
+        "width": 864
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        944,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "3e594459-6bb6-4840-87be-38ad34f6c98a",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are an AI assistant specialized in analyzing Apple's quarterly\nfinancial repo ts. Your main goal is to answer questions accurately and\nprecisely using the vector database, which contains relevant \nreports.\n\nProvide only information that comes directly from these reports or\nverified data. If the requested information is missing or unclear,\nexplicitly state that there is insufficient data.\n\nKeep responses concise and to the point. Include specific numbers and\nfacts whenever possible, and clearly indicate whether the information is\nsourced from Q1 .\n\nDeliver quick, reliable insights into Apple's quarterly financials without\nadding unnecessary details."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1232,
+        -32
+      ],
+      "id": "a089151b-d591-4be6-a6c8-7e2f0e93ce31",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "public": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        1072,
+        -32
+      ],
+      "id": "d8d66e4e-15a5-4c32-a367-9fb45a6521c4",
+      "name": "When chat message received",
+      "webhookId": "YOUR_WEBHOOK_ID"
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        1440,
+        208
+      ],
+      "id": "a4e7c07f-c920-4e05-809a-492a52501c0b",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "description": "Returns documents related to Apple  reports, including financials, outlook, margins,\nand all key details from the earnings reports."
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1.1,
+      "position": [
+        1520,
+        176
+      ],
+      "id": "d429061c-f7be-489d-b875-3889c92851fc",
+      "name": "Answer questions with a vector store"
+    },
+    {
+      "parameters": {
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "rag2",
+          "mode": "list",
+          "cachedResultName": "rag2"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.3,
+      "position": [
+        1264,
+        320
+      ],
+      "id": "5162485c-8bc6-4c2e-b49e-3750bae102cd",
+      "name": "Qdrant Vector Store2",
+      "credentials": {
+        "qdrantApi": {
+          "id": "YOUR_QDRANT_CREDENTIAL_ID",
+          "name": "Qdrant Credential"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        448
+      ],
+      "id": "7871a708-4fff-4e46-8d23-88c600841e83",
+      "name": "Embeddings Google Gemini1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "YOUR_GOOGLE_GEMINI_CREDENTIAL_ID",
+          "name": "Google Gemini Credential"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        64
+      ],
+      "id": "cff6aa57-72bf-42c4-9f5d-31cdd90ef751",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "YOUR_GOOGLE_DRIVE_FOLDER_ID",
+            "mode": "list",
+            "cachedResultName": "apple",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/YOUR_GOOGLE_DRIVE_FOLDER_ID"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -288,
+        64
+      ],
+      "id": "234e2bb3-af92-4f53-b612-f2689021da41",
+      "name": "Search files and folders",
+      "retryOnFail": false,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "YOUR_GOOGLE_DRIVE_CREDENTIAL_ID",
+          "name": "Google Drive Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        112,
+        64
+      ],
+      "id": "d131f356-7d03-4439-8437-d657c27fb731",
+      "name": "Download file1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "YOUR_GOOGLE_DRIVE_CREDENTIAL_ID",
+          "name": "Google Drive Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f9e4ebb6-edfe-48d0-be35-988a93733187",
+              "name": "file name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "cab372cc-bb59-4acf-aec4-fb68aeb573ec",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -96,
+        64
+      ],
+      "id": "ff7972f9-8a42-4188-bf22-6a8eeb56d8a3",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        608,
+        432
+      ],
+      "id": "2d803334-d978-40fc-b609-0f83039a0019",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        992,
+        160
+      ],
+      "id": "64f838fb-6f0a-488a-967a-6e8146e6b6cd",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "YOUR_GOOGLE_GEMINI_CREDENTIAL_ID",
+          "name": "Google Gemini Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        1584,
+        320
+      ],
+      "id": "3393f0f1-b419-49da-aabf-79acc1fa20b6",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "YOUR_GOOGLE_GEMINI_CREDENTIAL_ID",
+          "name": "Google Gemini Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAlibabaCloud",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        160
+      ],
+      "id": "d98ac007-33b9-4b56-b83e-9f474e4c70cd",
+      "name": "Qwen Cloud Chat Model",
+      "credentials": {
+        "alibabaCloudApi": {
+          "id": "YOUR_QWEN_CLOUD_CREDENTIAL_ID",
+          "name": "Qwen Cloud Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "errorMessage": "TEST ERROR"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        -32
+      ],
+      "id": "51482e76-cd0d-49ae-b45c-e9b7dadba145",
+      "name": "Stop and Error"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Embeddings Google Gemini": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Answer questions with a vector store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qdrant Vector Store2": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Google Gemini1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store2",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Search files and folders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search files and folders": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file1": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qdrant Vector Store": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Download file1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qwen Cloud Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "YOUR_ERROR_WORKFLOW_ID",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "b636ec8f-c62c-407b-9e03-6f1c4c9b143c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "YOUR_N8N_INSTANCE_ID"
+  },
+  "nodeGroups": [],
+  "id": "YOUR_N8N_WORKFLOW_ID",
+  "tags": []
+}
