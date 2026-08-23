@@ -1,4 +1,6 @@
-# RAG Chatbot with Google Drive Knowledge Base
+<img width="2000" height="961" alt="Screenshot_٢٠٢٦٠٨٢٤_٠٢٠٨٢٧_Samsung Browser" src="https://github.com/user-attachments/assets/94e42428-01d2-4241-8c8e-9c326ee5691a" />
+
+0# RAG Chatbot with Google Drive Knowledge Base
 
 ## Overview
 
